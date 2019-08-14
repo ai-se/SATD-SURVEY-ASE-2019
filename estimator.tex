@@ -1,0 +1,18 @@
+\begin{algorithm}[!t]
+\small
+\be
+\item Count the total number of positives in $y_i$, say $C_i$.
+\item Train a Logistic Regression curve $LR$ using $x$ and $y_i$;
+\item Use $LR$ to predict the probabilities of $m_{u}$ (all the unlabeled datapoints), say $p_i$. 
+\item Sort $p_i$ in decreasing order.
+\item In each datapoint $m_{u_j} \in $ sorted $p_i$ not marked as ``seen'', calculate a cumulative sum of the
+probabilities from the sorted list one by one and mark each datapoint as ``seen''. Whenever the sum $> 1$, 
+reset the probability of the first one, $m_{u_j}=1$ and rest as 0. Go back to step 5 until all datapoint is marked as ``seen''. At the end of this step $p_i$ has new probabilities with $0$ and $1$s only.
+\item Marge $p_i$ (new probabilities of unlabeled examples) with $m_l$ (labeled examples) and get $y_{i+1}$.
+\item Count the total number of positives in $y_{i+1}$, say $C_{i+1}$.
+\item If $C_i \neq C_{i+1}$, go back to step 1 with $y_{i+1}$ as new $y_i$
+\ee
+\caption{  {\IT}0 estimator with $m_{l}$ labeled examples by human (1 is SATD, 0 is Not-SATD) and $m_{u}$ unlabeled examples all marked with $0$ (because the dataset is very imbalanced). This is our $y_i$. 
+The algorithm obtains its probabilities from the sorter $S$
+described in \tion{sorter}. }\label{algo:estimator}
+  \end{algorithm}
